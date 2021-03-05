@@ -16,6 +16,22 @@ class Equipment{
 		vector<int> getStat();			
 };
 
+Equipment::Equipment(int a, int b, int c){
+    hpmax = a;
+    atk = b;
+    def = c;
+
+}
+
+vector<int> Equipment::getStat(){
+    vector<int> stat;
+    stat.push_back(hpmax);
+    stat.push_back(atk);
+    stat.push_back(def);
+    return stat;
+
+}
+
 class Unit{
 		string name;
 		string type;		
@@ -37,8 +53,36 @@ class Unit{
 		void guard();
 		void dodge(); 
 		bool isDead();
-		void equip(Equipment *);  
+		void equip(Equipment *);
 };
+
+void Unit::equip(Equipment *ops){
+    vector<int> equ;
+	vector<int> equ2;
+    equ = (*ops).getStat();
+    
+    if(equipment == NULL){
+    equipment = ops;
+    hpmax += equ[0];
+    atk += equ[1];
+    def += equ[2];
+    }else{
+        equ2 = equipment->getStat();
+        hpmax -= equ2[0];
+        atk -= equ2[1];
+        def -= equ2[2];        
+        equipment = ops;
+        hpmax += equ[0];
+        atk += equ[1];
+        def += equ[2];
+    }
+	if(hp > hpmax){
+        hp = hp-(hp-hpmax);
+    }
+    
+    
+}
+
 
 Unit::Unit(string t,string n){ 
 	type = t;
